@@ -116,9 +116,47 @@ Then... What is a Cluster?
 - If the information about memory and CPU of each node is different than the displayed in the main screen, is because Kubernetes takes part of the memory and CPU of each one of the nodes to him, this allows Kubernetes to manage the nodes and be able to execute commands.
 
 
+## Deploying a Sprinig Boot Application in Kubernetes
+
+- First, we need to connect to the Kubernetes Cluster, GCP give us the Google Cloud Shell, a terminarl to connect to the cluster.
+
+![image](https://user-images.githubusercontent.com/36638342/147717708-e75985d3-1852-45c1-a51f-81216c0b255e.png)
+
+![image](https://user-images.githubusercontent.com/36638342/147717733-3d4c6075-5cb9-4b17-a086-231058b79919.png)
+
+** You can decouple the Terminal to another tab
+
+- Click on "Connect" to get the command to connect to the Kubernetes Cluster.
+
+![image](https://user-images.githubusercontent.com/36638342/147717877-2c926dc3-1673-4282-8e42-7bfaffb7c7c8.png)
+
+- Remember ``kubectl`` is the main command to interact with the Kubernetes Cluster.
+- ``kubectl create deployment hello-world-rest-api --image=in28min/hello-world-rest-api:0.0.1.RELEASE`` in the terminal, this command deploys an app.
+- ``kubectl expose deployment hello-world-rest-api --type=LoadBalancer --port=8080`` Expose to the world the image (App) created in the step above with Load Balancer and using the port 8080.
+
+![image](https://user-images.githubusercontent.com/36638342/147719483-83607e32-6b01-4589-ab1f-7600730952cd.png)
+
+- Go to "Services & Ingress" in GPC, the app should appear there.
+
+![image](https://user-images.githubusercontent.com/36638342/147719525-2b8e98e0-fe3f-4349-88d6-a713de314713.png)
+
+- If you see "OK" in the status you can click on the endopoint link to review if the instace is running.
+
+![image](https://user-images.githubusercontent.com/36638342/147719631-e7bee131-d3f6-4d6e-b830-db22f615176e.png)
 
 
 ## Concepts
 - K8S --> Kubernetes abreviation.
 - AKS, EKS and GKE names of services in the cloud.
-- 
+- ``kubectl`` is the main command to interact with the Kubernetes Cluster.
+
+### Commands
+``kubectl version`` --> to know the verison of Kubernetes running
+
+``kubectl create deployment hello-world-rest-api --image=in28min/hello-world-rest-api:0.0.1.RELEASE`` --> this command deploys an app.
+  - --image=repo/image:tag took from Docker Hub
+
+``kubectl expose deployment hello-world-rest-api --type=LoadBalancer --port=8080`` 
+  - Expose to the world the image (App) created with that name.
+  - type indicates that it will have Load Balancer.
+  - port indicates the port to expose it (8080).
