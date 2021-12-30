@@ -184,7 +184,7 @@ Then... What is a Cluster?
 ![image](https://user-images.githubusercontent.com/36638342/147721018-437e89dd-4c72-49af-b06c-36be1890b924.png)
 
 
-### ReplicaSets
+### REPLICASETS
 
 - Ensures that a specific number of Pods are running at all times.
 - ``kubectl get replicasets`` 
@@ -214,6 +214,40 @@ Then... What is a Cluster?
   - Configures the number of replicas of the Pod to minimum three 
 
 ![image](https://user-images.githubusercontent.com/36638342/147722178-4ecd5916-709b-49b8-8201-33f9d37966d2.png)
+
+
+### DEPLOYMENTS
+
+- It's used when want Zero Downtime upgrading an application, it means, pass from V1 to V2 of an application.
+- ``kubectl get rs -o wide`` to get info about the ReplicaSets.
+
+![image](https://user-images.githubusercontent.com/36638342/147722747-94b5d289-9b66-4c0a-bd2c-c7e3c78b6f09.png)
+
+- We will see the version or the image attached to that ReplicaSet.
+
+Let's asume that we want to deploy a new version of "hello-world-rest-api"
+- If we run ``kubectl set image deployment hello-world-rest-api hello-world-rest-api=DUMMY_IMAGE:TEST``
+
+![image](https://user-images.githubusercontent.com/36638342/147723340-0deb3898-2991-4a6d-921b-bf5c3ce91551.png)
+
+- This will try to replace the "hello-world-rest-api" app with this version "hello-world-rest-api=DUMMY_IMAGE:TEST" (Same app, but with the image DUMMY_IMAGE and Tag TEST"
+- We know that image and tag doesn't exist, but the application is still alive because the ReplicaSets with the old version.
+- If we executes ``kubectl get rs -o wide`` we will see one pod down and two alive, the one down tried to deploy the new version, the another two pods are still running the old version.
+
+![image](https://user-images.githubusercontent.com/36638342/147723516-23ba053f-7cd5-4c6c-804f-5231def29c2e.png)
+
+- If we run ``kubectl get pods`` we will see three instances running and a new one that fails
+
+![image](https://user-images.githubusercontent.com/36638342/147723643-684feffe-dfee-4276-9a6e-d6b82cfd6ed3.png)
+
+Let's do it with a vlaid image
+
+- Run ``kubectl set image deployment hello-world-rest-api hello-world-rest-api=in28min/hello-world-rest-api:0.0.2.RELEASE`` (Repo, image and tag took from DockerHub)
+- Run ``kubectl get pods`` and you can see how the Deployment is replacing the pods using the replicaSets.
+
+![image](https://user-images.githubusercontent.com/36638342/147723927-dc34252d-3c37-4fb9-bc28-1c40a30a765a.png)
+
+![image](https://user-images.githubusercontent.com/36638342/147724165-06c182f5-4432-4ce2-b42c-c26b9d0fda28.png)
 
 
 
@@ -283,11 +317,20 @@ Then... What is a Cluster?
   - Configures the number of replicas of the Pod to minimum three
 
 
-
+#### DEPLOYMENT
 
 ``kubectl get deployment``
   - Displays a list with all the deployments created
 
+``kubectl set image deployment hello-world-rest-api hello-world-rest-api=DUMMY_IMAGE:TEST``
+  - Replaces the deployment with another image.
+  - It follows the format ``kubectl set image deployment <current_app> <new_app>=<IMAGE>:<Tag>``
+  - If there are more than one pod running the container, Kubernetes will try to update one pod and if it's not possible, Kubernetes will keep the rest pf pods with the old version to have Zero downtime.
+
+![image](https://user-images.githubusercontent.com/36638342/147723573-97d4c7e7-e0a5-4ecc-955f-ecaad0ee864b.png)
+
+
+![image](https://user-images.githubusercontent.com/36638342/147723619-12f3619b-7f91-41ee-a474-c1117b32fa53.png)
 
 
 
