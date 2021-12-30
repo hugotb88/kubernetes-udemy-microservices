@@ -150,7 +150,7 @@ Then... What is a Cluster?
 - K8S --> Kubernetes abreviation.
 - AKS, EKS and GKE names of services in the cloud.
 - ``kubectl`` is the main command to interact with the Kubernetes Cluster.
-- Kubernetes follows the principle of "single responsability", this means each component only have onw task assigned and only one.
+- Kubernetes follows the principle of "single responsability", this means each component only have one task assigned and only one.
 
 
 ### PODS
@@ -184,6 +184,36 @@ Then... What is a Cluster?
 ![image](https://user-images.githubusercontent.com/36638342/147721018-437e89dd-4c72-49af-b06c-36be1890b924.png)
 
 
+### ReplicaSets
+
+- Ensures that a specific number of Pods are running at all times.
+- ``kubectl get replicasets`` 
+- ``kubectl get replicaset`` 
+- ``kubectl get rs``
+
+![image](https://user-images.githubusercontent.com/36638342/147721544-a96c081d-3f82-4773-a312-adc1ea4635ae.png)
+
+- DESIRED, number of pod desired.
+- CURRENT, How many of them are running.
+- READY, How many of them are ready.
+-``kubectl get rs -o wide``
+  - More dedails of the replicaSet
+
+![image](https://user-images.githubusercontent.com/36638342/147721627-a368b4d2-6706-4932-b454-4f5529d1f83a.png)
+
+- If we do ``kubectl delete <ID of Pod>``
+  - Delete the specific Pod
+- And then ``kubectl get pod -o wide`` to display the current Pods
+- We will see a Pod running with a new ID
+
+![image](https://user-images.githubusercontent.com/36638342/147721859-28fbf9b5-edaa-4a26-b0b6-621dcc86635b.png)
+
+- This is because the ReplicaSet is in charge to keep the Pods running, and as we can see above, it's configured to have 1 DESIRED, then, when the number becomes 0, the ReplicaSet creates a new one.
+
+- ``kubectl scale deployment hello-world-rest-api --replicas=3``
+  - Configures the number of replicas of the Pod to minimum three 
+
+![image](https://user-images.githubusercontent.com/36638342/147722178-4ecd5916-709b-49b8-8201-33f9d37966d2.png)
 
 
 
@@ -201,9 +231,17 @@ Then... What is a Cluster?
 ``kubectl get events`` 
   - Show the list of events occurred 
   - Including the events to create a pod, a replicaSet and a deployment
-  - 
+
 ![image](https://user-images.githubusercontent.com/36638342/147719836-2c4f7068-9623-46e2-9339-e269bf68abce.png)
 
+``kubectl get events --sort-by=.metadata.creationTimestamp``
+  - Filter the data in the events command
+
+![image](https://user-images.githubusercontent.com/36638342/147722312-e33ad6da-49cd-4c67-9351-758db0237827.png)
+
+
+
+#### PODS
 ``kubectl get pods``
   - Displays a list with all the pods created
 
@@ -218,17 +256,39 @@ Then... What is a Cluster?
 ``kubectl explain pods``
   - Explain the definition of what is a Pod.
 
+``kubectl explain replicaset``
+  - Explain the definition of what is a ReplicaSet.
+
 ``kubectl describe pod <id>``
   - Detaild about an specific Pod
 
 ![image](https://user-images.githubusercontent.com/36638342/147720845-0d87c0a5-45dc-4bcb-abaf-9c0866cc31e6.png)
 
+``kubectl delete <ID of Pod>``
 
-``kubectl get replicaaset``
+
+
+#### REPLICASET
+
+``kubectl get replicaset``
   - Displays a list with all the replicaSets created
+
+``kubectl get replicaset -o wide``
+  - More dedails of the replicaSet
+
+![image](https://user-images.githubusercontent.com/36638342/147721627-a368b4d2-6706-4932-b454-4f5529d1f83a.png)
+
+
+``kubectl scale deployment hello-world-rest-api --replicas=3``
+  - Configures the number of replicas of the Pod to minimum three
+
+
+
 
 ``kubectl get deployment``
   - Displays a list with all the deployments created
+
+
 
 
 ``kubectl get service``
