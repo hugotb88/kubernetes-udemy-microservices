@@ -145,12 +145,49 @@ Then... What is a Cluster?
 ![image](https://user-images.githubusercontent.com/36638342/147719631-e7bee131-d3f6-4d6e-b830-db22f615176e.png)
 
 
+
 ## Concepts
 - K8S --> Kubernetes abreviation.
 - AKS, EKS and GKE names of services in the cloud.
 - ``kubectl`` is the main command to interact with the Kubernetes Cluster.
+- Kubernetes follows the principle of "single responsability", this means each component only have onw task assigned and only one.
 
-### Commands
+
+### PODS
+
+![image](https://user-images.githubusercontent.com/36638342/147720273-fbc2df92-4c4b-49ac-a58f-7da8af065c17.png)
+
+- Is the smallest deployable unit in Kubernetes.
+- Yes, even smaller than a container.
+- You can't have a container in Kubernetes without a Pod.
+- The container LIVES INSIDE of a Pod.
+- ``kubectl get pods``
+  - List with all the Pods created 
+- ``kubectl get pods -o wide``
+  - List with all the Pods created including more details
+
+![image](https://user-images.githubusercontent.com/36638342/147720437-5285281d-d25b-4e1f-8f01-c3cc19b9e552.png)
+
+- Each Pod have an unique IP address.
+- A Pod can contain one or more containers (READY Column)
+  - You can see how many of them are and how many are ready.
+- ``kubectl explain pods``
+  - Explain the definition of what is a Pod.
+- ``kubectl describe pod <id>``
+  - Details about the Pod.
+  - IP, node and NAMESPACE.
+  - NAMESPACE is used to isolate Pods from another Pod.
+  - Label, using Labels is the way to link Pods, ReplicaSets, Deployments and Services.
+  - Annotations, metadata of the Pod.
+  - Status, current status of the Pod.
+
+![image](https://user-images.githubusercontent.com/36638342/147721018-437e89dd-4c72-49af-b06c-36be1890b924.png)
+
+
+
+
+
+# Commands
 ``kubectl version`` --> to know the verison of Kubernetes running
 
 ``kubectl create deployment hello-world-rest-api --image=in28min/hello-world-rest-api:0.0.1.RELEASE`` --> this command deploys an app.
@@ -160,3 +197,44 @@ Then... What is a Cluster?
   - Expose to the world the image (App) created with that name.
   - type indicates that it will have Load Balancer.
   - port indicates the port to expose it (8080).
+
+``kubectl get events`` 
+  - Show the list of events occurred 
+  - Including the events to create a pod, a replicaSet and a deployment
+  - 
+![image](https://user-images.githubusercontent.com/36638342/147719836-2c4f7068-9623-46e2-9339-e269bf68abce.png)
+
+``kubectl get pods``
+  - Displays a list with all the pods created
+
+![image](https://user-images.githubusercontent.com/36638342/147719958-d4938e9c-8ac9-4ec5-b101-38a7e2de1cb5.png)
+
+
+``kubectl get pods -o wide``
+  - Displays a list with all the pods created with extra details like IP, Nodes, etc.
+
+![image](https://user-images.githubusercontent.com/36638342/147720433-10a76ce5-e0bb-4c1d-93e5-aa8c7f1ecabd.png)
+
+``kubectl explain pods``
+  - Explain the definition of what is a Pod.
+
+``kubectl describe pod <id>``
+  - Detaild about an specific Pod
+
+![image](https://user-images.githubusercontent.com/36638342/147720845-0d87c0a5-45dc-4bcb-abaf-9c0866cc31e6.png)
+
+
+``kubectl get replicaaset``
+  - Displays a list with all the replicaSets created
+
+``kubectl get deployment``
+  - Displays a list with all the deployments created
+
+
+``kubectl get service``
+  - Displays a list of servies running
+
+![image](https://user-images.githubusercontent.com/36638342/147720049-96077b19-6de6-47f1-9064-937285f0556d.png)
+
+
+
