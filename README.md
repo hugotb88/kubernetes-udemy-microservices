@@ -250,6 +250,29 @@ Let's do it with a vlaid image
 ![image](https://user-images.githubusercontent.com/36638342/147724165-06c182f5-4432-4ce2-b42c-c26b9d0fda28.png)
 
 
+### SERVICES
+
+- Run ``kubectl get pods -o wide`` you can see that each pod have it's own IP.
+- Kill one pod with ``kubectl delete pod <ID>``
+- Run again``kubectl get pods -o wide`` you will see a new pod running with a new Id and a new IP.
+
+![image](https://user-images.githubusercontent.com/36638342/147724519-8000356d-7cfc-433c-9cd1-875f33c3c66c.png)
+
+- In the "Front" of the applications, we are still using the same url in the browser to access to the app, and behind that the Load Balancer is sending the requests to the three different pods, it doesn't matter if we deleted any of them and the IP changed, Kubernetes find the pod and balance the requests again.
+- That "Magic" because a SERVICE is running in the background
+  - His role is provide an always-available external interface to the applications which are running inside the pods.
+- The service was created when, at the beginning, we executed ``kubectl expose deployment hello-world-rest-api --type=LoadBalancer --port=8080`` 
+  - GCP created a Load Balancer service for us.
+- If you go in GCP and search for Load Balancing, you can find the application running and see the IP in the frontend and the backend instances.
+
+![image](https://user-images.githubusercontent.com/36638342/147724913-ac94339e-8535-4582-8aac-06df4462b703.png)
+
+- Run ``kubectl get services`` and you will see the Load Balancer service running
+
+![image](https://user-images.githubusercontent.com/36638342/147725368-9f6c4cd1-a175-4792-8263-3ec8c790155b.png)
+
+
+
 
 # Commands
 ``kubectl version`` --> to know the verison of Kubernetes running
@@ -338,6 +361,9 @@ Let's do it with a vlaid image
   - Displays a list of servies running
 
 ![image](https://user-images.githubusercontent.com/36638342/147720049-96077b19-6de6-47f1-9064-937285f0556d.png)
+
+![image](https://user-images.githubusercontent.com/36638342/147725386-87e0aefd-be87-4fbd-9d73-11e35d813d4c.png)
+
 
 
 
