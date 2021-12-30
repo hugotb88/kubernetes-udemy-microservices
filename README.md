@@ -99,4 +99,26 @@ Then... What is a Cluster?
   - You can left the default values and only change the name
 - Click on "Create"
 - The cluster will be created
-  - Take in consideration that you can be charged $$ if you leave the cluster running, then if you are only using it for learning purposes, delete it always and create it every time you continue with your lessons.  
+  - Take in consideration that you can be charged $$ if you leave the cluster running, then if you are only using it for learning purposes, delete it always and create it every time you continue with your lessons.
+
+![image](https://user-images.githubusercontent.com/36638342/147717149-28a960d8-44fb-4a00-ba69-0f9ebe966fec.png)
+
+
+## Reviewing Kubernetes Cluster
+- If you click on the Kubernetes Cluster you can see the details of it.
+
+![image](https://user-images.githubusercontent.com/36638342/147717329-587f3d36-35f5-47ff-85f2-c8a3bcf66b24.png)
+
+- If you click on "Nodes" you will seee the number of nodes created, the memory and the CPU assigned to each one of them
+
+![image](https://user-images.githubusercontent.com/36638342/147717379-af8c13a6-36f2-4d98-9d59-99b350044395.png)
+
+- If the information about memory and CPU of each node is different than the displayed in the main screen, is because Kubernetes takes part of the memory and CPU of each one of the nodes to him, this allows Kubernetes to manage the nodes and be able to execute commands.
+
+
+
+
+## Concepts
+- K8S --> Kubernetes abreviation.
+- AKS, EKS and GKE names of services in the cloud.
+- 
