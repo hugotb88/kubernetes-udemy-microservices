@@ -628,6 +628,9 @@ service.yaml
 - Now, you have each one of the deployment.yaml files in their respective folders, but the idea is having a single deployment.yaml file. (Keep it in the Currency Exchange folder)
 - You can cut and paste on into the another one separated by "---"
 
+
+``deployment-01-initial.yaml``
+
 ```
 apiVersion: apps/v1
 kind: Deployment
@@ -741,3 +744,86 @@ status:
 ![image](https://user-images.githubusercontent.com/36638342/147840936-578b4f49-1093-4abf-8543-5739234e3798.png)
 
 - You can execute ``kubectl get pods`` to verify that now you have two instances of currency-exchange running
+
+
+### Cleaning up a declarative YAML
+- You can remove some fields from a YAML file to keep it clean.
+
+``deployment-02-cleaned-up.yaml``
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  labels:
+    app: currency-exchange
+  name: currency-exchange
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: currency-exchange
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: currency-exchange
+    spec:
+      containers:
+      - image: in28min/mmv2-currency-exchange-service:0.0.11-SNAPSHOT
+        imagePullPolicy: IfNotPresent
+        name: mmv2-currency-exchange-service
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: currency-exchange
+  name: currency-exchange
+  namespace: default
+spec:
+  ports:
+  - port: 8000
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app: currency-exchange
+  sessionAffinity: None
+  type: LoadBalancer
+```
+
+
+# Enabling Logging and Tracing API's in GCP 
+- GCP has it's own versions of Logging and tracing services (Like Zipkin)
+- Go to GCP
+- Search "API's & Services"
+- Click on "ENABLE APIS AND SERVICES"
+- Search for "Cloud Logging API"
+
+![image](https://user-images.githubusercontent.com/36638342/147841272-15cb80f4-23dc-4b52-bbd4-4adb691dbb34.png)
+
+![image](https://user-images.githubusercontent.com/36638342/147841278-10496521-f9f8-4050-851f-3dbabb9e2305.png)
+
+- Enable it
+
+For tracing
+
+- Go to GCP
+- Search "API's & Services"
+- Click on "ENABLE APIS AND SERVICES"
+- Search for "Stack"
+- Enable the 5 services in the results
+  - Stackdriver API
+  - Stackdriver Monitoring
+  - Stackdriver Trace
+  - Stackdriver Error Reporting
+  - Stackdriver Profiler API  
+
