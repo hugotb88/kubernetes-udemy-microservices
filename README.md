@@ -314,6 +314,7 @@ Let's do it with a vlaid image
 ![image](https://user-images.githubusercontent.com/36638342/147724165-06c182f5-4432-4ce2-b42c-c26b9d0fda28.png)
 
 
+
 ### SERVICES
 
 - Run ``kubectl get pods -o wide`` you can see that each pod have it's own IP.
@@ -433,5 +434,42 @@ Let's do it with a vlaid image
 - Get status of the components of the Master Node 
 
 ![image](https://user-images.githubusercontent.com/36638342/147839050-87197dff-4b1b-4235-95b1-6d8cc14c7d8a.png)
+
+
+
+# Installing GCloud and Kubectl
+- We can install the Google Cloud CLI to use in our machine instead of use the one embeded in the Google Cloud Platform
+- Kubectl is the CLI to use the ``kubectl`` commands for Kubernetes.
+
+## Gcloud (Google Cloud SDK)
+- Search in the browser "Google Cloud SDK".
+- Go to the website and install it (For Windows there is an installer).
+- https://cloud.google.com/sdk/docs/quickstart
+- The installation will ask to login, authotize the use of your google account and select the project you want to use, the project is the same we have in the GCP bash
+  - You can do it also using the command ``gcloud init``
+
+![image](https://user-images.githubusercontent.com/36638342/147839312-7747b5f3-2e89-42d3-b915-14c654c9d516.png)
+
+
+![image](https://user-images.githubusercontent.com/36638342/147839253-a1b31e26-a2ec-46fd-8af9-d10e2cff0748.png)
+
+
+- ``gcloud auth login``  will send you again to the login page.
+
+## Installing Kubectl
+- Go to https://kubernetes.io/es/docs/tasks/tools/install-kubectl/
+- Follow the instructions depending you OS ( lol )
+- For Windows there is an installer.
+
+![image](https://user-images.githubusercontent.com/36638342/147839398-3f4ffa7a-88b0-49e4-8f0f-f2094a8851bd.png)
+
+You can try ``kubectl version``to know the version installed
+
+Now you can go to GCP, copy the command to connect to you Kubernetes cluster in GCP and execute in your local terminal.
+
+![image](https://user-images.githubusercontent.com/36638342/147839420-32f7596e-3e31-4134-a1e8-3c49cb35b073.png)
+
+![image](https://user-images.githubusercontent.com/36638342/147839430-bd6847e6-65e2-40b6-a2f7-3aac699c5366.png)
+
 
 
