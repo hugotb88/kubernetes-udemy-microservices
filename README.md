@@ -473,3 +473,27 @@ Now you can go to GCP, copy the command to connect to you Kubernetes cluster in 
 
 
 
+# Deploying Currency-Exchange and Currency-Conversion services in Kubernetes
+- Go to https://github.com/in28minutes/spring-microservices-v2 and download the whole repo in zip.
+- Extract only the "05. Kubernetes folder", inside are the two microservices mentioned in the title
+- Changes made it in the microservices:
+  - In the pom.xml
+    - Changed Name and version of the SNAPSHOT
+    - Commented AMQP, ZIPKIN, Spring Cloud Starter (To Maps) and Spring Cloud Eureka (To discovery) dependencies, Kubernetes has it's own versions of them.
+  - In the Controllers
+    - For the CurrencyConversionController
+      - Added a Logger in the CurrencyConversionController
+    - For the CurrencyExchangeController
+      - Added a variable to the host using a property called HOSTNAME from the Environment Bean.
+      - Added a variable to the version using a property called HOSTNAME from the Environment Bean.  
+  - In the .properties file
+    - Explicity enabled the Health indicators (Coming from the Actuator dependency)
+  - For the CurrencyExchangePRoxy
+    - Added a harcoded URL with a FeignClient to use Kubernetes discovery service instead of use EUREKA.
+    - Uses the CURRENCY_ECHANGE_SERVICE_HOST environment variable or localhost if not exists.
+
+
+![image](https://user-images.githubusercontent.com/36638342/147840039-48670b19-07fa-44bb-a374-b663eabd1cb7.png)
+
+
+
