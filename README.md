@@ -28,6 +28,70 @@ Then we need to implement a Container Orchestration, there are different Orchest
 **The idea of use Google Cloud Platform (GPC) is because is the only one that offers a free tier, AWS ans Azure don't have it.
 
 
+# Kubernetes Architecture
+
+![image](https://user-images.githubusercontent.com/36638342/147837585-6da6984e-c6ed-4154-9cef-428e26c884a6.png)
+
+- Master Nodes
+- Worker Nodes
+- Cluster
+
+## Master Node
+- It has a lot af components, is the node  in charge to manage the rest of nodes in the cluster.
+- The Master Node the applications doesn't have an application running inside, that's part of the work of the pods inside of the Worker Nodes.
+
+![image](https://user-images.githubusercontent.com/36638342/147837616-4d07768d-d35e-47e2-b804-7ab504d7621d.png)
+
+### Distributed Database (ETCD)
+- Running as part of the Master Node.
+- Configurations, Scallin operations, deployments are stored here.
+  - Is called "Desired State" when we send a command to Kubernetes.
+
+
+### API-SERVER (kube-apiserver)
+- API used by GCP to talk with Kubernetes.
+- When we send a command using the console, the command is submitted to that API.
+
+### Scheduler (kube-scheduler)
+- Schedule the pods on to the nodes.
+- Decides which node will take the new pod, based on memory, CPU, etc.
+
+### Controller Manager (kube-controller-manager)
+- Manages the overall health.
+- When we want a lot of instances of a different applications, the Controller Manager manages the way is deployed to keep the cluster healthy.
+
+
+If the Master Node is down, the applications related to it are down also?
+No, even if the Master Node is down, the applications keeps running because they are in the Worker Nodes, maybe you can't do any change on them, but they will be still alive.
+
+If we run ``kubectl get componentstatuses`` we will get the status of Master Node components.
+
+![image](https://user-images.githubusercontent.com/36638342/147839061-cfac87b8-fa15-4c17-af2d-29f6fe7af72f.png)
+
+
+## Worker Nodes
+- They are in charge to run the applications in the pods.
+
+![image](https://user-images.githubusercontent.com/36638342/147838340-5e91925f-7cd3-4000-bfdb-58cbfa5b5606.png)
+
+### Node Agent (kubelet)
+- Monitoring what happens on the Node and communicates it to the Master Node.
+- e.g. if a Pod gows down, Node Agent reports to the Controller Manager in the Master Node.
+
+### Networking Component (kube-proxy)
+- Expose Services around the Nodes and the Pods.
+
+### Container Runtime (CRI - Docker, rkt, etc)
+- We want to run containers inside of the Pods, that happens because the Container Runtime.
+  - This means that we can run different type of containers compatible with OCI not only Docker containers. 
+  - The most frequently used is Docker.
+
+### PODS
+- A Node can have a lot of pods and inside of the pods could be more than of applications running.
+- The container LIVES INSIDE of a Pod, a Pod can have multiple containers inside.
+
+
+
 # GKE (Google Cloud Engine)
 - It's a service of the Google Cloud Platform where you can configure a Kubernetes cluster.
 - Kubernetes is Cloud Neutral, that means can run in any service of the cloud (Azure, AWS, GCP)
@@ -160,7 +224,7 @@ Then... What is a Cluster?
 - Is the smallest deployable unit in Kubernetes.
 - Yes, even smaller than a container.
 - You can't have a container in Kubernetes without a Pod.
-- The container LIVES INSIDE of a Pod.
+- The container LIVES INSIDE of a Pod, a Pod can have multiple containers inside.
 - ``kubectl get pods``
   - List with all the Pods created 
 - ``kubectl get pods -o wide``
@@ -365,5 +429,9 @@ Let's do it with a vlaid image
 ![image](https://user-images.githubusercontent.com/36638342/147725386-87e0aefd-be87-4fbd-9d73-11e35d813d4c.png)
 
 
+``kubectl get componentstatuses``
+- Get status of the components of the Master Node 
+
+![image](https://user-images.githubusercontent.com/36638342/147839050-87197dff-4b1b-4235-95b1-6d8cc14c7d8a.png)
 
 
