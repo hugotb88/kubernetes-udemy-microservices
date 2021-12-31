@@ -493,7 +493,30 @@ Now you can go to GCP, copy the command to connect to you Kubernetes cluster in 
     - Uses the CURRENCY_ECHANGE_SERVICE_HOST environment variable or localhost if not exists.
 
 
+
 ![image](https://user-images.githubusercontent.com/36638342/147840039-48670b19-07fa-44bb-a374-b663eabd1cb7.png)
+
+- Replace in the pom.xml the name of your Docker Hub id.
+- Execute Maven goals to create the images  (Remember you need Docker running in your machine)
+  - ``spring-boot:build-image -DskipTests``
+  - Do it for both microservices
+- In your terminal execute ``docker login`` to login using the credentials you already have
+
+![image](https://user-images.githubusercontent.com/36638342/147840418-4c878a40-36d8-4089-8211-6288a9de0965.png)
+
+- Push the Currency Exchange image created with ``docker push hugotb88/mmv2-currency-exchange-service:0.0.11-SNAPSHOT"
+  - User your own path created during the Maven build-image goal 
+
+![image](https://user-images.githubusercontent.com/36638342/147840454-6e708151-0e69-44be-a3fd-b14f1dc5a60d.png)
+
+- After push you can verify it in https://hub.docker.com/u/hugotb88
+
+![image](https://user-images.githubusercontent.com/36638342/147840511-6d30fe12-1f1a-4f93-bae6-3915dc0be63d.png)
+
+- Push now the Currency Conversion executingg ``docker push hugotb88/mmv2-currency-conversion-service:0.0.11-SNAPSHOT``
+
+![image](https://user-images.githubusercontent.com/36638342/147840545-4690fe84-3e68-41c9-847a-762ca4591d95.png)
+
 
 
 
