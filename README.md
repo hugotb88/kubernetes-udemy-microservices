@@ -435,6 +435,17 @@ Let's do it with a vlaid image
 
 ![image](https://user-images.githubusercontent.com/36638342/147839050-87197dff-4b1b-4235-95b1-6d8cc14c7d8a.png)
 
+``kubectl get deployment currency-exchange -o yaml``
+- Get YAML file of an application 
+
+``kubectl get service currency-exchange -o yaml ``
+- Get YAML file of service specified 
+
+``kubectl diff -f deployment.yaml``
+- Compares the YAML files with the current one deployed and displays it.
+
+``kubectl apply -f deployment.yaml``
+- Apply a YAML deployment file
 
 
 # Installing GCloud and Kubectl
@@ -533,3 +544,200 @@ Now you can go to GCP, copy the command to connect to you Kubernetes cluster in 
 ![image](https://user-images.githubusercontent.com/36638342/147840752-c3f57d5c-37d2-4e4f-b7df-b71e3ffe9974.png)
 
 
+# Create declarative YAML in Kubernetes
+- The name of the file is ``deployment.yaml``
+- Go to the project folder in your terminal
+- Execute ``kubectl get deployment currency-exchange -o yaml``, it shows the YAML descriptive file in the terminal
+- To save it ``kubectl get deployment currency-exchange -o yaml >> deployment.yaml``
+- Execute the same for the service and  save it ``kubectl get service currency-exchange -o yaml >> service.yaml``
+
+![image](https://user-images.githubusercontent.com/36638342/147840870-c3aec591-90e0-4189-add7-1e95eef85b22.png)
+
+![image](https://user-images.githubusercontent.com/36638342/147840881-dcd66dee-889f-4dd0-ae99-a78ba257446d.png)
+
+deployment.yaml
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: "2021-12-31T22:52:03Z"
+  generation: 1
+  labels:
+    app: currency-exchange
+  name: currency-exchange
+  namespace: default
+  resourceVersion: "73965"
+  uid: 0fd62eba-df70-4df8-bb15-cf4cbf8f7f12
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: currency-exchange
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: currency-exchange
+    spec:
+      containers:
+      - image: hugotb88/mmv2-currency-exchange-service:0.0.11-SNAPSHOT
+        imagePullPolicy: IfNotPresent
+        name: mmv2-currency-exchange-service
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2021-12-31T22:52:18Z"
+    lastUpdateTime: "2021-12-31T22:52:18Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2021-12-31T22:52:03Z"
+    lastUpdateTime: "2021-12-31T22:52:18Z"
+    message: ReplicaSet "currency-exchange-6bd8668498" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1
+
+```
+
+service.yaml
+
+- Now, you have each one of the deployment.yaml files in their respective folders, but the idea is having a single deployment.yaml file. (Keep it in the Currency Exchange folder)
+- You can cut and paste on into the another one separated by "---"
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"deployment.kubernetes.io/revision":"1"},"creationTimestamp":"2021-12-31T22:52:03Z","generation":3,"labels":{"app":"currency-exchange"},"name":"currency-exchange","namespace":"default","resourceVersion":"87625","uid":"0fd62eba-df70-4df8-bb15-cf4cbf8f7f12"},"spec":{"progressDeadlineSeconds":600,"replicas":1,"revisionHistoryLimit":10,"selector":{"matchLabels":{"app":"currency-exchange"}},"strategy":{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":"25%"},"type":"RollingUpdate"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"currency-exchange"}},"spec":{"containers":[{"image":"hugotb88/mmv2-currency-exchange-service:0.0.11-SNAPSHOT","imagePullPolicy":"IfNotPresent","name":"mmv2-currency-exchange-service","resources":{},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File"}],"dnsPolicy":"ClusterFirst","restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"terminationGracePeriodSeconds":30}}},"status":{"availableReplicas":1,"conditions":[{"lastTransitionTime":"2021-12-31T22:52:18Z","lastUpdateTime":"2021-12-31T22:52:18Z","message":"Deployment has minimum availability.","reason":"MinimumReplicasAvailable","status":"True","type":"Available"},{"lastTransitionTime":"2021-12-31T22:52:03Z","lastUpdateTime":"2021-12-31T22:52:18Z","message":"ReplicaSet \"currency-exchange-6bd8668498\" has successfully progressed.","reason":"NewReplicaSetAvailable","status":"True","type":"Progressing"}],"observedGeneration":3,"readyReplicas":1,"replicas":2,"updatedReplicas":1}}
+  creationTimestamp: "2021-12-31T22:52:03Z"
+  generation: 4
+  labels:
+    app: currency-exchange
+  name: currency-exchange
+  namespace: default
+  resourceVersion: "89248"
+  uid: 0fd62eba-df70-4df8-bb15-cf4cbf8f7f12
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: currency-exchange
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: currency-exchange
+    spec:
+      containers:
+      - image: hugotb88/mmv2-currency-exchange-service:0.0.11-SNAPSHOT
+        imagePullPolicy: IfNotPresent
+        name: mmv2-currency-exchange-service
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2021-12-31T22:52:18Z"
+    lastUpdateTime: "2021-12-31T22:52:18Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2021-12-31T22:52:03Z"
+    lastUpdateTime: "2021-12-31T22:52:18Z"
+    message: ReplicaSet "currency-exchange-6bd8668498" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 4
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    cloud.google.com/neg: '{"ingress":true}'
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{"cloud.google.com/neg":"{\"ingress\":true}"},"creationTimestamp":"2021-12-31T22:52:55Z","finalizers":["service.kubernetes.io/load-balancer-cleanup"],"labels":{"app":"currency-exchange"},"name":"currency-exchange","namespace":"default","resourceVersion":"87629","uid":"9c0c1f68-7e3f-4f05-aef1-14c1ee315dab"},"spec":{"clusterIP":"10.52.1.21","clusterIPs":["10.52.1.21"],"externalTrafficPolicy":"Cluster","ipFamilies":["IPv4"],"ipFamilyPolicy":"SingleStack","ports":[{"nodePort":32164,"port":8000,"protocol":"TCP","targetPort":8000}],"selector":{"app":"currency-exchange"},"sessionAffinity":"None","type":"LoadBalancer"},"status":{"loadBalancer":{"ingress":[{"ip":"34.134.106.231"}]}}}
+  creationTimestamp: "2021-12-31T22:52:55Z"
+  finalizers:
+    - service.kubernetes.io/load-balancer-cleanup
+  labels:
+    app: currency-exchange
+  name: currency-exchange
+  namespace: default
+  resourceVersion: "89253"
+  uid: 9c0c1f68-7e3f-4f05-aef1-14c1ee315dab
+spec:
+  clusterIP: 10.52.1.21
+  clusterIPs:
+    - 10.52.1.21
+  externalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+    - nodePort: 32164
+      port: 8000
+      protocol: TCP
+      targetPort: 8000
+  selector:
+    app: currency-exchange
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+      - ip: 34.134.106.231
+
+```
+
+- Try changing the "replicas" (The first one) parameter in Currency Exchange yaml to 2 and then execute ``kubectl apply -f deployment.yaml``
+
+![image](https://user-images.githubusercontent.com/36638342/147840936-578b4f49-1093-4abf-8543-5739234e3798.png)
+
+- You can execute ``kubectl get pods`` to verify that now you have two instances of currency-exchange running
