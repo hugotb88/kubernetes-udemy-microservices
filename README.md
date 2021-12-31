@@ -491,6 +491,8 @@ Now you can go to GCP, copy the command to connect to you Kubernetes cluster in 
   - For the CurrencyExchangePRoxy
     - Added a harcoded URL with a FeignClient to use Kubernetes discovery service instead of use EUREKA.
     - Uses the CURRENCY_ECHANGE_SERVICE_HOST environment variable or localhost if not exists.
+    - This variable is automatically created by Kubernetes when a new pod is created.
+      - SERVICE_NAME_SERVICE_HOST 
 
 
 
@@ -518,5 +520,16 @@ Now you can go to GCP, copy the command to connect to you Kubernetes cluster in 
 ![image](https://user-images.githubusercontent.com/36638342/147840545-4690fe84-3e68-41c9-847a-762ca4591d95.png)
 
 
+- In your terminal, once you are connected to you GCP instance.
+- Execute ``kubectl create deployment currency-exchange --image=hugotb88/mmv2-currency-exchange-service:0.0.11-SNAPSHOT``
+- Then ``kubectl expose deployment currency-exchange --type=LoadBalancer --port=8000`` to expose it
+- You can verify using ``kubectl get services``
+
+![image](https://user-images.githubusercontent.com/36638342/147840678-6ae64b79-9b84-4eb8-baa1-27de7e26a22e.png)
+
+- You have the external IP, then you can perform a curl http://34.134.106.231:8000/currency-exchange/from/USD/to/INR to see if you get a response
+- You can also do it from the browser.
+
+![image](https://user-images.githubusercontent.com/36638342/147840752-c3f57d5c-37d2-4e4f-b7df-b71e3ffe9974.png)
 
 
