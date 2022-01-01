@@ -449,13 +449,18 @@ Let's do it with a vlaid image
 ``kubectl delete all -l app=currency-exchange``
 - Delete everything related to the specified app
 
-
 ``kubectl create configmap currency-conversion --from-literal=CURRENCY_EXCHANGE_URI=http://currency-conversion``
 - Creates a configmap mapping the value with the environment variable
 
 ``kubectl get configmap``
 - Display the list of maps created
 
+``kubectl autoscale deployment currency-exchange --min=1 --max=3 --cpu-percent=70``
+- To Auto scale based on CPU when the use is greater than 70%
+- This creates the "horizontalpodautoscaler"
+
+``kubectl get hpa``
+- Get the Horizontal Pod Autoscaler data (hpa)
 
 
 # Installing GCloud and Kubectl
@@ -896,4 +901,21 @@ http://34.134.106.231:8000/actuator/health/readiness
 ![image](https://user-images.githubusercontent.com/36638342/147841887-153d9dc2-ea64-4d3c-9e77-df9ced3347ed.png)
 
 
+# AutoScaling Microservices in Kubernetes
+- We saw that we can doit via YAML file or in the terminal with --replicas= number_of_instances
+- But the idea is Kubernetes doing it automatically
+- Execute ``kubectl autoscale deployment currency-exchange --min=1 --max=3 --cpu-percent=70``
+  - To auto scale based on CPU, minimum 1 instance, maximum 3 and if the CPU use is greater than 70%, auto scale
+- This creates the "horizontalpodautoscaler"
+- If we execute ``kubectl get hpa`` we got data of the configuration
+
+![image](https://user-images.githubusercontent.com/36638342/147842066-ecb6de56-4c6d-410c-847c-0e7cf5208711.png)
+
+- If we execute ``kubectl delete hpa currency-exchange`` we delete the horizontalpodautoscaler.
+
+![image](https://user-images.githubusercontent.com/36638342/147842113-0999f9d6-e025-4138-bbad-8e304e9f7d11.png)
+
+- But the pods are still running in case were created
+
+TBD (How to auto crease the number of pods)
 
