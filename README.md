@@ -865,3 +865,35 @@ Exmaple of the YAML
 
 ``deployment-03-final.yaml``
 ![image](https://user-images.githubusercontent.com/36638342/147841675-334147ce-c56f-4606-bab0-80d83318e3cc.png)
+
+
+# Deployments of Microservices in Kubernetes with Zero Downtime
+- Lets supose we have a wrng deployment, we can rollout to an earlier version.
+- ``kubectl rollout history deployment currency-exchange`` to see the list of versions.
+- ``kubectl rollout undo deployment currency-exchange --to-revision=1`` to rollback to earlier version
+
+![image](https://user-images.githubusercontent.com/36638342/147841787-13b78680-45d9-431a-afcc-c3a7ce2cd291.png)
+
+## Configuring Liveness and Readiness in Kubernetes
+- When we are moving from one version to another we want Zero downtime, then we need to configure Liveness and Readiness.
+- If Readiness probe is not successfull, K8s don't send any traffic
+- If Liveness probe is not successfull, Pod is restarted.
+- We have a couple of urls for those probes.
+- Came with the Actuator configuration we did in the properties file
+
+http://34.134.106.231:8000/actuator/health/liveness
+http://34.134.106.231:8000/actuator/health/readiness
+
+![image](https://user-images.githubusercontent.com/36638342/147841835-9cb0a721-bee6-4851-877c-59756acef2be.png)
+
+![image](https://user-images.githubusercontent.com/36638342/147841866-d5da5edb-bb96-41a1-b84f-f957dc57ddf7.png)
+
+![image](https://user-images.githubusercontent.com/36638342/147841867-54fb74b9-3b0e-4d3b-a3f5-0c1ec41d1786.png)
+
+
+- We can configure them in the YAML file, in the container section
+
+![image](https://user-images.githubusercontent.com/36638342/147841887-153d9dc2-ea64-4d3c-9e77-df9ced3347ed.png)
+
+
+
