@@ -389,7 +389,6 @@ Let's do it with a vlaid image
 ``kubectl delete <ID of Pod>``
 
 
-
 #### REPLICASET
 
 ``kubectl get replicaset``
@@ -446,6 +445,11 @@ Let's do it with a vlaid image
 
 ``kubectl apply -f deployment.yaml``
 - Apply a YAML deployment file
+
+``kubectl delete all -l app=currency-exchange``
+- Delete everything related to the specified app
+
+
 
 
 # Installing GCloud and Kubectl
