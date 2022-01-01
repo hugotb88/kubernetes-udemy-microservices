@@ -450,6 +450,12 @@ Let's do it with a vlaid image
 - Delete everything related to the specified app
 
 
+``kubectl create configmap currency-conversion --from-literal=CURRENCY_EXCHANGE_URI=http://currency-conversion``
+- Creates a configmap mapping the value with the environment variable
+
+``kubectl get configmap``
+- Display the list of maps created
+
 
 
 # Installing GCloud and Kubectl
@@ -842,3 +848,20 @@ For tracing
 
 Exmaple of the YAML
 ![image](https://user-images.githubusercontent.com/36638342/147841595-0ee56ef7-48e1-4be5-926e-3aa7b30cf2ea.png)
+
+
+# Configure Centralized and mapping configuration in Kubernetes
+- In the Terminal execute ``kubectl create configmap currency-conversion --from-literal=CURRENCY_EXCHANGE_URI=http://currency-conversion``
+  - This will map that environmet variable with that value for the currency conversion service
+
+![image](https://user-images.githubusercontent.com/36638342/147841642-951fe82c-0c2c-45ce-8160-9f824b7d6d99.png)
+
+
+- Execute ``kubectl get configmap`` to get all the mappings
+![image](https://user-images.githubusercontent.com/36638342/147841644-ec758c27-6537-4a20-ba2e-e62c655e74ec.png)
+
+- Execute ``kubectl get configmap currency-conversion -o yaml >> configmap.yaml`` to create a file with the configmap of the currency conversion
+- Paste it in the deployment file, remeber, separated  with "---"
+
+``deployment-03-final.yaml``
+![image](https://user-images.githubusercontent.com/36638342/147841675-334147ce-c56f-4606-bab0-80d83318e3cc.png)
