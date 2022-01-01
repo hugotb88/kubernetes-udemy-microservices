@@ -831,3 +831,14 @@ For tracing
   - Stackdriver Error Reporting
   - Stackdriver Profiler API  
 
+
+# Create Environment variables to enable Microservices Communication
+- Its better to create custom environment variables instead of using the default ones for Kubernetes.
+- Change in CurrencyExchangeProxy class the name of the environment variable
+  - From CURRENCY_EXCHANGE_SERVICE_HOST to CURRENCY_EXCHANGE_URI
+- Change the version of the SNAPSHOT in the pom.xml to ``0.0.12``
+- Create and push the Docker image to Docker Hub
+
+
+Exmaple of the YAML
+![image](https://user-images.githubusercontent.com/36638342/147841595-0ee56ef7-48e1-4be5-926e-3aa7b30cf2ea.png)
